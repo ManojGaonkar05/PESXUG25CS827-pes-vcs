@@ -165,6 +165,7 @@ static int build_tree_recursive(IndexEntry *entries, int count, size_t prefix_le
                     break;
                 }
             }
+            //
 
             ObjectID subtree_id;
             if (build_tree_recursive(&entries[start], i - start, new_prefix_len, &subtree_id) != 0)
