@@ -205,7 +205,7 @@ int index_save(const Index *index) {
     fclose(f);
 
 
-    
+
     return rename(tmp_path, INDEX_FILE);
 }
 
@@ -256,3 +256,5 @@ int index_add(Index *index, const char *path) {
 
     return index_save(index);
 }
+
+//
