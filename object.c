@@ -126,9 +126,10 @@ int object_write(ObjectType type, const void *data, size_t len, ObjectID *id_out
     if (object_exists(id_out)) {
         free(full_object);
         return 0; // Already stored, nothing to do
-    }
+       }
 
     // Step 6: Create shard directory (.pes/objects/XX/)
+    
     char hex[HASH_HEX_SIZE + 1];
     hash_to_hex(id_out, hex);
 
@@ -152,6 +153,8 @@ int object_write(ObjectType type, const void *data, size_t len, ObjectID *id_out
     ssize_t written = write(fd, full_object, full_len);
     free(full_object);
 
+   
+   
     if (written != (ssize_t)full_len) {
         close(fd);
         unlink(tmp_path);
@@ -176,6 +179,7 @@ int object_write(ObjectType type, const void *data, size_t len, ObjectID *id_out
     }
 
     return 0;
+
 }
 
 
