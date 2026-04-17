@@ -177,6 +177,7 @@ static int build_tree_recursive(IndexEntry *entries, int count, size_t prefix_le
             snprintf(te->name, sizeof(te->name), "%s", dir_name);
         }
     }
+    //
 
     void *tree_data;
     size_t tree_len;
