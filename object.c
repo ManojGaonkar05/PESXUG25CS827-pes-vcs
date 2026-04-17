@@ -22,14 +22,14 @@
 
 // ─── PROVIDED ────────────────────────────────────────────────────────────────
 
-void hash_to_hex(const ObjectID *id, char *hex_out) {
+void  hash_to_hex(const ObjectID *id, char *hex_out) {
     for (int i = 0; i < HASH_SIZE; i++) {
         sprintf(hex_out + i * 2, "%02x", id->hash[i]);
     }
     hex_out[HASH_HEX_SIZE] = '\0';
 }
 
-int hex_to_hash(const char *hex, ObjectID *id_out) {
+int  hex_to_hash(const char *hex, ObjectID *id_out) {
     if (strlen(hex) < HASH_HEX_SIZE) return -1;
     for (int i = 0; i < HASH_SIZE; i++) {
         unsigned int byte;
@@ -39,7 +39,7 @@ int hex_to_hash(const char *hex, ObjectID *id_out) {
     return 0;
 }
 
-void compute_hash(const void *data, size_t len, ObjectID *id_out) {
+void  compute_hash(const void *data, size_t len, ObjectID *id_out) {
     unsigned int hash_len;
     EVP_MD_CTX *ctx = EVP_MD_CTX_new();
     EVP_DigestInit_ex(ctx, EVP_sha256(), NULL);
@@ -51,13 +51,13 @@ void compute_hash(const void *data, size_t len, ObjectID *id_out) {
 // Get the filesystem path where an object should be stored.
 // Format: .pes/objects/XX/YYYYYYYY...
 // The first 2 hex chars form the shard directory; the rest is the filename.
-void object_path(const ObjectID *id, char *path_out, size_t path_size) {
+void  object_path(const ObjectID *id, char *path_out, size_t path_size) {
     char hex[HASH_HEX_SIZE + 1];
     hash_to_hex(id, hex);
     snprintf(path_out, path_size, "%s/%.2s/%s", OBJECTS_DIR, hex, hex + 2);
 }
 
-int object_exists(const ObjectID *id) {
+int  object_exists (const ObjectID *id) {
     char path[512];
     object_path(id, path, sizeof(path));
     return access(path, F_OK) == 0;
@@ -99,6 +99,7 @@ int object_exists(const ObjectID *id) {
 int object_write(ObjectType type, const void *data, size_t len, ObjectID *id_out) {
     // Step 1: Determine the type string
     const char *type_str;
+
     switch (type) {
         case OBJ_BLOB:   type_str = "blob";   break;
         case OBJ_TREE:   type_str = "tree";   break;
@@ -113,6 +114,7 @@ int object_write(ObjectType type, const void *data, size_t len, ObjectID *id_out
 
     // Step 3: Build full object = header + data
     size_t full_len = header_len + len;
+
     uint8_t *full_object = malloc(full_len);
     if (!full_object) return -1;
 
@@ -123,13 +125,15 @@ int object_write(ObjectType type, const void *data, size_t len, ObjectID *id_out
     compute_hash(full_object, full_len, id_out);
 
     // Step 5: Check if already exists (deduplication)
+   
+   
     if (object_exists(id_out)) {
         free(full_object);
         return 0; // Already stored, nothing to do
        }
 
     // Step 6: Create shard directory (.pes/objects/XX/)
-    
+    // new line feon the direcotry
     char hex[HASH_HEX_SIZE + 1];
     hash_to_hex(id_out, hex);
 
@@ -249,7 +253,7 @@ int object_read(const ObjectID *id, ObjectType *type_out, void **data_out, size_
     if (!null_byte) {
         free(raw);
         return -1;
-    }
+    }//
 
     // Step 5: Parse the type string from the header
     if (strncmp((char *)raw, "blob ", 5) == 0) {
@@ -264,7 +268,10 @@ int object_read(const ObjectID *id, ObjectType *type_out, void **data_out, size_
     }
 
     // Step 6: Extract data portion (everything after the \0)
+    // from seconds
     size_t header_size = (null_byte - raw) + 1;
+    
+    
     size_t data_len = file_size - header_size;
 
     void *data = malloc(data_len + 1);
