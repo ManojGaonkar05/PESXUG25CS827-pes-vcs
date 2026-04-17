@@ -102,6 +102,7 @@ int commit_serialize(const Commit *commit, void **data_out, size_t *len_out) {
     if (!*data_out) return -1;
     memcpy(*data_out, buf, n + 1);
     *len_out = (size_t)n;
+    
     return 0;
 }
 
