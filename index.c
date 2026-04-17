@@ -204,6 +204,8 @@ int index_save(const Index *index) {
     fsync(fileno(f));
     fclose(f);
 
+
+    
     return rename(tmp_path, INDEX_FILE);
 }
 
