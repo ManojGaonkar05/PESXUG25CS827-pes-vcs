@@ -52,6 +52,7 @@ int commit_parse(const void *data, size_t len, Commit *commit_out) {
         commit_out->has_parent = 0;
     }
     //
+    //
 
     // "author <name> <timestamp>\n"
     char author_buf[256];
