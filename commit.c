@@ -102,7 +102,7 @@ int commit_serialize(const Commit *commit, void **data_out, size_t *len_out) {
     if (!*data_out) return -1;
     memcpy(*data_out, buf, n + 1);
     *len_out = (size_t)n;
-    
+
     return 0;
 }
 
@@ -122,6 +122,8 @@ int commit_walk(commit_walk_fn callback, void *ctx) {
         free(raw);
         if (rc != 0) return -1;
 
+
+        
         callback(&id, &c, ctx);
 
         if (!c.has_parent) break;
