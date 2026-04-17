@@ -212,6 +212,7 @@ int object_read(const ObjectID *id, ObjectType *type_out, void **data_out, size_
     // Step 1: Build the file path from the hash
     char path[512];
     object_path(id, path, sizeof(path));
+    
 
     // Step 2: Open and read the entire file
     FILE *f = fopen(path, "rb");
