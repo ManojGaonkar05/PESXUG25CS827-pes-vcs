@@ -188,6 +188,7 @@ static int build_tree_recursive(IndexEntry *entries, int count, size_t prefix_le
     free(tree_data);
     return rc;
 }
+//
 
 int tree_from_index(ObjectID *id_out) {
     Index index;
