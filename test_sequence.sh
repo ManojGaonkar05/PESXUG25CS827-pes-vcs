@@ -78,3 +78,4 @@ find .pes/objects -type f | sort
 echo ""
 
 echo "=== All integration tests completed ==="
+
